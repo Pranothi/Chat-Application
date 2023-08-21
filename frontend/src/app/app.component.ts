@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ChatService } from './services/chat/chat.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,8 @@ import { ChatService } from './services/chat/chat.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  @ViewChild('popup', {static:false}) popup:any;
 
   title = 'frontend';
   roomId:string = '';
@@ -16,6 +19,8 @@ export class AppComponent {
   phone:string = '';
   currentUser:any;
   selectedUser:any;
+  showScreen:any;
+  storageArray:any;
 
   userList = [
     {
@@ -80,22 +85,54 @@ export class AppComponent {
     },
   ]
 
-  constructor(private chatservice:ChatService){
+  constructor(private chatservice:ChatService, private modalService:NgbModal){
     // chatservice.getMessage().subscribe((data: {user:string, message:string})=>{
     //   this.messageArray.push(data)
     // })
-    chatservice.getMessage().subscribe({next:(data: {user:string, message:string})=>{
-      this.messageArray.push(data)
+    // chatservice.getMessage().subscribe({next:(data: {user:string, message:string})=>{
+    //   this.messageArray.push(data)
+    // }})
+  }
+
+  ngOnInit(){
+    // this.currentUser = this.userList[0]
+    this.chatservice.getMessage().subscribe({next:(data: {user:string, message:string})=>{
+      // this.messageArray.push(data)
+      if(this.roomId){
+        this.storageArray = this.chatservice.getStorage()
+        const storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId)
+        this.messageArray = this.storageArray[storeIndex].chats
+      }
     }})
   }
 
-  ngOnInit(){}
+  ngAfterViewInit(){
+    this.openPopup(this.popup)
+  }
+
+  openPopup(content: any){
+    this.modalService.open(content, {backdrop: 'static', centered: true});
+  }
+
+  login(dismiss:any){
+    this.currentUser = this.userList.find(user => user.phone === this.phone.toLowerCase());
+    this.userList = this.userList.filter( user=> user.phone !== this.phone.toLowerCase() );
+
+    if(this.currentUser){
+      this.showScreen = true;
+      dismiss()
+    }
+  }
 
   selectUserHandler(phone:string){
     this.selectedUser = this.userList.find(user => user.phone === phone);
     this.roomId = this.selectedUser.roomId[this.selectedUser.id];
     this.messageArray = []
-
+    this.storageArray = this.chatservice.getStorage();
+    const storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);
+    if (storeIndex > -1){
+      this.messageArray = this.storageArray[storeIndex].chats;
+    }
     this.join(this.currentUser.name, this.roomId);
   }
 

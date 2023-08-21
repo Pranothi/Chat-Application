@@ -1,8 +1,8 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="showScreen">
   <div class="row">
     <div class="col-md-4">
       <div class="user-list-card">
-        <div class="user-card" [ngClass]="user.phone === selectedUser.phone?'active':''" (click)="selectedUser(user.phone)" *ngFor="let user of userList">
+        <div class="user-card" [ngClass]="user.phone === selectedUser.phone?'active':''" (click)="selectUserHandler(user.phone)" *ngFor="let user of userList">
           <img [src]="user.image" [alt]="user.name">
           <p class="username">{{user.name}}</p>
         </div>
@@ -37,3 +37,21 @@
     </div>
   </div>
 </div>
+
+<ng-template #popup let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Login</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <input type="number" placeholder="Enter your phone number" class ="form-control" [(ngModel)]="phone">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-sm btn-primary" (click)="login(d)">Login</button>
+  </div>
+</ng-template>

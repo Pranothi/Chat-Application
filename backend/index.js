@@ -12,14 +12,13 @@ server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
 
-io.on('connection', (socket)=>{
-    socket.on('join', (data)=>{
+io.on('connection', (socket) => {
+    socket.on('join', (data) => {
         socket.join(data.room);
         socket.broadcast.to(data.room).emit('user joined');
     });
 
-    socket.on('message', (data)=>{
-        io.in(data.room).emit('new message', {user:data.user, message: data.message});
+    socket.on('message', (data) => {
+        io.in(data.room).emit('new message', { user: data.user, message: data.message });
     })
 })
-  
