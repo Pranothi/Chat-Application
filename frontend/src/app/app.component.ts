@@ -13,6 +13,10 @@ export class AppComponent {
   messageText:string = '';
   messageArray:{user:string, message:string}[]=[];
 
+  phone:string = '';
+  currentUser:any;
+  selectedUser:any;
+
   userList = [
     {
       id:1,
@@ -77,9 +81,37 @@ export class AppComponent {
   ]
 
   constructor(private chatservice:ChatService){
-    // chatservice.getMessage().subscribe( next : (data: {user:string, message:string}))
+    chatservice.getMessage().subscribe((data: {user:string, message:string})=>{
+      this.messageArray.push(data)
+    })
+    // chatservice.getMessage().subscribe({next:(data: {user:string, message:string})=>{
+    //   this.messageArray.push(data)
+    // }})
   }
 
   ngOnInit(){}
+
+  selectUserHandler(phone:string){
+    this.selectedUser = this.userList.find(user => user.phone === phone);
+    this.roomId = this.selectedUser.roomId[this.selectedUser.id];
+    this.messageArray = []
+
+    this.join(this.currentUser.name, this.roomId);
+  }
+
+  join(username: string, roomId:string){
+    this.chatservice.joinRoom({data:{user: username, roomId:roomId}})
+  }
+
+  sendMessage(){
+    this.chatservice.sendMessage({
+      data:{
+        data: this.currentUser.name,
+        room: this.roomId,
+        message: this.messageText
+      }
+    });
+    this.messageText = ''
+  }
 
 }
