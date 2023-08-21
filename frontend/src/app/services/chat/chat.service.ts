@@ -10,38 +10,41 @@ export class ChatService {
   private socket: Socket;
   private url = 'http://localhost:3000';
 
-  constructor() { 
+  constructor() {
     // this.socket = io(this.url)
-    this.socket = io(this.url, {transports: ['websocket', 'pulling', 'flashsocket']})
+    this.socket = io(this.url, { transports: ['websocket', 'pulling', 'flashsocket'] })
   }
 
-  joinRoom(data:any): void{
+  joinRoom(data: any): void {
     this.socket.emit('join', data)
+    console.log('join', data);    
   }
 
-  sendMessage(data:any): void{
+  sendMessage(data: any): void {
     this.socket.emit('message', data);
+    console.log('message', data);
+    
   }
 
-  getMessage(): Observable<any>{
-    return new Observable<{user:string, message:string}>(
-      observer =>{
-        this.socket.on('new message', (data:any)=>{
+  getMessage(): Observable<any> {
+    return new Observable<{ user: string, message: string }>(
+      observer => {
+        this.socket.on('new message', (data: any) => {
           observer.next(data)
         });
-        return () =>{
+        return () => {
           this.socket.disconnect()
         }
-      } 
+      }
     )
   }
 
-  getStorage(){
+  getStorage() {
     const storage = localStorage.getItem('chats')
-    return storage ? JSON.parse(storage):[]
+    return storage?JSON.parse(storage):[];
   }
 
-  setStorage(data:any){
-    localStorage.setItem('chats',data)
+  setStorage(data: any) {
+    localStorage.setItem('chats', data)
   }
 }

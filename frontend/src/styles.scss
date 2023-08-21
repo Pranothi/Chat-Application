@@ -56,25 +56,31 @@ body{
     height: calc(100vh - 100px);
     position: relative;
     overflow: hidden;
+    background-image: url(./assets/select.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    overflow-y: auto;
+    
 
     .chat-header {
-        height: 70px;
+        height: 65px;
         background-color: #ededed;
         display: flex;
         justify-content: flex-start;
         align-items: center;
 
         .avatar{
-            height: 30px;
-            width: 30px;
+            height: 50px;
+            width: 50px;
             border-radius: 50%;
             overflow: hidden;
             margin: 0 20px ;
         }
     
         .username {
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
             margin-bottom: 0;
             display: flex;
             justify-content: center;
@@ -86,7 +92,8 @@ body{
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center center;
-        height: calc(100vh - 125px);
+        padding: 20px;
+        height: calc(89vh - 125px);
         overflow-y: auto;
 
         .message-container {
@@ -98,13 +105,23 @@ body{
             margin-bottom: 15px;
         }
 
-        .name-user{
+        .same-user{
             display: flex;
             justify-content: flex-end;
+            position: relative;
 
-            .message-container{
-                background-color: lightskyblue;
+            .arrow{
+                position: absolute;
+                bottom: 15px;
             }
+
+            p{
+                margin-right: 10px;
+            }
+
+            // .message-container{
+            //     background-color: lightskyblue;
+            // }
         }
     }
 
@@ -125,4 +142,19 @@ body{
             color: black;
         }
     }
+}
+
+.login{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form{
+    border: 1px solid rgb(172, 201, 255);
+    border-radius: 20px;
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
 }
