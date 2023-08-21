@@ -81,12 +81,12 @@ export class AppComponent {
   ]
 
   constructor(private chatservice:ChatService){
-    chatservice.getMessage().subscribe((data: {user:string, message:string})=>{
-      this.messageArray.push(data)
-    })
-    // chatservice.getMessage().subscribe({next:(data: {user:string, message:string})=>{
+    // chatservice.getMessage().subscribe((data: {user:string, message:string})=>{
     //   this.messageArray.push(data)
-    // }})
+    // })
+    chatservice.getMessage().subscribe({next:(data: {user:string, message:string})=>{
+      this.messageArray.push(data)
+    }})
   }
 
   ngOnInit(){}
