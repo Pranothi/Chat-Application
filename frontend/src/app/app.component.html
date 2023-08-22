@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<ng-template #popup let-d="dismiss">
+<ng-template #popup let-d="dismiss" *ngIf="!selectedUser">
   <div class="modal-header">
     <h4 class="modal-title">Login</h4>
   </div>

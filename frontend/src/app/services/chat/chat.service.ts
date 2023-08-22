@@ -25,11 +25,12 @@ export class ChatService {
     console.log('message', data);    
   }
 
-  getMessage(): Observable<any> {
+  getMessage(): Observable<any> {    
     return new Observable<{ user: string, message: string }>(
       observer => {
         this.socket.on('new message', (data: any) => {
           observer.next(data)
+          console.log("Dataaaaa: ",data);          
         });
         return () => {
           this.socket.disconnect()
@@ -39,14 +40,11 @@ export class ChatService {
   }
 
   getStorage() {
-    const storage = localStorage.getItem('chats')
-    console.log("get Storage", storage);
-    
+    const storage = localStorage.getItem('chats')    
     return storage?JSON.parse(storage):[];
   }
 
   setStorage(data: any) {
     localStorage.setItem('chats', JSON.stringify(data))
-    console.log("set Storage",data);    
   }
 }

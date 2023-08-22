@@ -86,7 +86,7 @@ export class AppComponent {
 
   constructor(private chatservice:ChatService, private modalService:NgbModal){ }
 
-  ngOnInit(){
+  ngOnInit(){    
     this.chatservice.getMessage()
       .subscribe((data: { user: string, room: string, message: string }) => {
         if (this.roomId) {
@@ -94,6 +94,9 @@ export class AppComponent {
             this.storageArray = this.chatservice.getStorage();
             const storeIndex = this.storageArray
               .findIndex((storage:any) => storage.roomId === this.roomId);
+            if(this.storageArray.len<0){
+              console.log("empty");              
+            }
             this.messageArray = this.storageArray[storeIndex].chats;
           }, 500);
         }
@@ -131,7 +134,15 @@ export class AppComponent {
     this.roomId = this.selectedUser.roomId[this.currentUser.id];        
     this.messageArray = []
     this.storageArray = this.chatservice.getStorage();
-    const storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);
+    console.log(this.storageArray.length);
+    let storeIndex
+    if(this.storageArray.length == 0){
+      storeIndex = -1          
+    }else{
+      storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);   
+    }
+    console.log(storeIndex);
+    
     if (storeIndex > -1){
       this.messageArray = this.storageArray[storeIndex].chats;
     }
@@ -148,9 +159,8 @@ export class AppComponent {
       room: this.roomId,
       message: this.messageText
     });
-    this.storageArray = this.chatservice.getStorage();
-    const storeIndex = this.storageArray
-      .findIndex((storage:any) => storage.roomId === this.roomId);
+    let storeIndex
+    storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);   
     if (storeIndex > -1) {
       this.storageArray[storeIndex].chats.push({
         user: this.currentUser.name,
@@ -166,8 +176,11 @@ export class AppComponent {
       };      
       this.storageArray.push(updateStorage);
     }
-    this.messageArray = this.storageArray[storeIndex].chats;    
+    console.log(this.storageArray);
+    
     this.chatservice.setStorage(this.storageArray);
+    storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);  
+    this.messageArray = this.storageArray[storeIndex].chats;    
     this.messageText = ''
   }
 
