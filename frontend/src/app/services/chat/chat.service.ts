@@ -22,8 +22,7 @@ export class ChatService {
 
   sendMessage(data: any): void {
     this.socket.emit('message', data);
-    console.log('message', data);
-    
+    console.log('message', data);    
   }
 
   getMessage(): Observable<any> {
@@ -41,10 +40,13 @@ export class ChatService {
 
   getStorage() {
     const storage = localStorage.getItem('chats')
+    console.log("get Storage", storage);
+    
     return storage?JSON.parse(storage):[];
   }
 
   setStorage(data: any) {
-    localStorage.setItem('chats', data)
+    localStorage.setItem('chats', JSON.stringify(data))
+    console.log("set Storage",data);    
   }
 }

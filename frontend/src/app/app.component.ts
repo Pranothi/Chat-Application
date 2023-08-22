@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AppComponent {
 
-  @ViewChild('popup', {static:false}) popup:any;
+  // @ViewChild('popup', {static:false}) popup:any;
 
   roomId:string = '';
   messageText:string = '';
@@ -119,20 +119,16 @@ export class AppComponent {
   }
 
   logIn(){
-    localStorage.clear()
     this.currentUser = this.userList.find(user => user.phone === this.phone.toString());
-    this.userList = this.userList.filter(user=> user.phone !== this.phone.toString() );
-
+    this.userList = this.userList.filter(user=> user.phone !== this.phone.toString());
     if(this.currentUser){
       this.showScreen = true;
     }
   }
 
   selectUserHandler(phone:string){
-    this.selectedUser = this.userList.find(user => user.phone === phone);
-    
-    this.roomId = this.selectedUser.roomId[this.currentUser.id];    
-    
+    this.selectedUser = this.userList.find(user => user.phone === phone);    
+    this.roomId = this.selectedUser.roomId[this.currentUser.id];        
     this.messageArray = []
     this.storageArray = this.chatservice.getStorage();
     const storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);
@@ -144,6 +140,8 @@ export class AppComponent {
 
   join(username: string, roomId:string){
     this.chatservice.joinRoom({data:{user: username, roomId:roomId}})
+    const data = localStorage.getItem("userData");
+    console.log("data: ", JSON.parse(data!));  
   }
 
   sendMessage(){
@@ -155,14 +153,11 @@ export class AppComponent {
     this.storageArray = this.chatservice.getStorage();
     const storeIndex = this.storageArray
       .findIndex((storage:any) => storage.roomId === this.roomId);
-
     if (storeIndex > -1) {
       this.storageArray[storeIndex].chats.push({
         user: this.currentUser.name,
         message: this.messageText
-      });
-      console.log("grrr");
-      
+      });      
     } else {
       const updateStorage = {
         roomId: this.roomId,
@@ -170,20 +165,11 @@ export class AppComponent {
           user: this.currentUser.name,
           message: this.messageText
         }]
-      };
-      console.log("uppp");
-      
+      };      
       this.storageArray.push(updateStorage);
     }
-    console.log("st", this.storageArray);
-
-    let msg = this.storageArray[0].chats[0]
-
-    this.messageArray.push(msg)    
-    
+    this.messageArray = this.storageArray[storeIndex].chats;    
     this.chatservice.setStorage(this.storageArray);
-    
-    this.messageText = '';
     this.messageText = ''
   }
 

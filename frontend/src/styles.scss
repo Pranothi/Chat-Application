@@ -116,12 +116,25 @@ body{
             }
 
             p{
-                margin-right: 10px;
+                margin-right: 9px;
             }
 
             // .message-container{
             //     background-color: lightskyblue;
             // }
+        }
+
+        .different-user{
+            position: relative;
+
+            .arrow{
+                position: absolute;
+                bottom: 0;
+            }
+
+            p{
+                margin-left: 9px;
+            }
         }
     }
 

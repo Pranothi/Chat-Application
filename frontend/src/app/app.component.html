@@ -16,7 +16,7 @@
             <p class="username">{{selectedUser.name}}</p>
           </div>
           <div class="chat-body">
-            <div *ngFor="let item of messageArray" [ngClass]="item.user === currentUser.name? 'same-user':''">
+            <div *ngFor="let item of messageArray" [ngClass]="item.user === currentUser.name? 'same-user':'different-user'">
               <p class="message-container">{{item.message}}</p>
               <svg class="arrow" width="20" height="15" viewBox="0 0 50 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M25 0L49.2487 40.5H0.751289L25 0Z" fill="#fff"/>
