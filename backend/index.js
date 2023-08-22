@@ -16,12 +16,10 @@ io.on('connection', (socket) => {
     console.log('A client connected.');
     socket.on('join', (data) => {
         socket.join(data.data.roomId);
-        // console.log("DATA", data.data.roomId);
         socket.broadcast.to(data.data.roomId).emit('user joined');
     });
 
     socket.on('message', (data) => {
-        console.log("MSG",data.message);
         io.in(data.room).emit('new message', { user: data.user, message: data.message });
     })
 })
