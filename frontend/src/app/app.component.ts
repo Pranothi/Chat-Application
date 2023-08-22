@@ -140,8 +140,6 @@ export class AppComponent {
 
   join(username: string, roomId:string){
     this.chatservice.joinRoom({data:{user: username, roomId:roomId}})
-    const data = localStorage.getItem("userData");
-    console.log("data: ", JSON.parse(data!));  
   }
 
   sendMessage(){
