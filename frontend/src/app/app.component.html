@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-4">
       <div class="user-list-card">
-        <div class="user-card" (click)="selectUserHandler(user.phone)" *ngFor="let user of userList">
+        <div class="user-card" (click)="selectUserHandler(user.phone)" [class.active]="selectedUser.phone === user.phone" *ngFor="let user of userList">
           <img [src]="user.image" [alt]="user.name" class="avatar">
           <p class="username">{{user.name}}</p>
         </div>
@@ -40,7 +40,7 @@
     </div>
   </div>
 </div>
-<div class="login">
+<div class="login" *ngIf="!showScreen">
   <div class="login-form">
     <div class="modal-header">
       <h4 class="modal-title">Login</h4>
@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<ng-template #popup let-d="dismiss" *ngIf="!selectedUser">
+<!-- <ng-template #popup let-d="dismiss" *ngIf="!selectedUser">
   <div class="modal-header">
     <h4 class="modal-title">Login</h4>
   </div>
@@ -76,4 +76,4 @@
   <div class="modal-footer">
     <button class="btn btn-sm btn-primary" (click)="login(d)">Login</button>
   </div>
-</ng-template>
+</ng-template> -->

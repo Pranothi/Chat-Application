@@ -22,4 +22,8 @@ io.on('connection', (socket) => {
     socket.on('message', (data) => {
         io.in(data.room).emit('new message', { user: data.user, message: data.message });
     })
+
+    socket.on('disconnect', () => {
+        console.log('A client disconnected.');
+    });
 })

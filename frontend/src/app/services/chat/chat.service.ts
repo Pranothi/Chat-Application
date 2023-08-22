@@ -17,20 +17,17 @@ export class ChatService {
 
   joinRoom(data: any): void {
     this.socket.emit('join', data)
-    console.log('join', data);    
   }
 
   sendMessage(data: any): void {
     this.socket.emit('message', data);
-    console.log('message', data);    
   }
 
   getMessage(): Observable<any> {    
     return new Observable<{ user: string, message: string }>(
       observer => {
         this.socket.on('new message', (data: any) => {
-          observer.next(data)
-          console.log("Dataaaaa: ",data);          
+          observer.next(data)       
         });
         return () => {
           this.socket.disconnect()

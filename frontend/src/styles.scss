@@ -16,17 +16,17 @@ body{
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    height: calc(100vh - 100px);
+    height: calc(100vh - 42px);
     padding: 10px;
+
+    .active{
+        background-color: #ededed;
+    }
 
     .user-card{
         display: flex;
         padding: 10px;
         cursor: pointer;
-
-        .active{
-            background-color: #ededed;
-        }
 
         .avatar{
             height: 50px;
@@ -53,7 +53,7 @@ body{
 .chat-container {
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    height: calc(100vh - 100px);
+    height: calc(100vh - 42px);
     position: relative;
     overflow: hidden;
     background-image: url(./assets/select.png);
@@ -93,7 +93,7 @@ body{
         background-size: cover;
         background-position: center center;
         padding: 20px;
-        height: calc(89vh - 125px);
+        height: calc(84vh - 21px);
         overflow-y: auto;
 
         .message-container {

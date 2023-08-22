@@ -89,31 +89,25 @@ export class AppComponent {
   ngOnInit(){    
     this.chatservice.getMessage()
       .subscribe((data: { user: string, room: string, message: string }) => {
-        if (this.roomId) {
+        if (this.roomId) {          
           setTimeout(() => {
             this.storageArray = this.chatservice.getStorage();
             const storeIndex = this.storageArray
               .findIndex((storage:any) => storage.roomId === this.roomId);
-            if(this.storageArray.len<0){
-              console.log("empty");              
-            }
             this.messageArray = this.storageArray[storeIndex].chats;
           }, 500);
         }
-      });
+      }
+      );
   }
 
   // ngAfterViewInit(){
   //   this.modalService.open(this.popup, {backdrop: 'static', centered: true})
   // }
 
-  // openPopup(content: any){
-  //   this.modalService.open(content, {backdrop: 'static', centered: true});
-  // }
-
   login(dismiss:any){
     this.currentUser = this.userList.find(user => user.phone === this.phone.toString());
-    this.userList = this.userList.filter(user=> user.phone !== this.phone.toString() );
+    this.userList = this.userList.filter(user=> user.phone !== this.phone.toString());
 
     if(this.currentUser){
       this.showScreen = true;
@@ -124,24 +118,27 @@ export class AppComponent {
   logIn(){
     this.currentUser = this.userList.find(user => user.phone === this.phone.toString());
     this.userList = this.userList.filter(user=> user.phone !== this.phone.toString());
+    this.selectedUser = '';
     if(this.currentUser){
       this.showScreen = true;
     }
   }
 
   selectUserHandler(phone:string){
+    console.log(this.currentUser);
+    
     this.selectedUser = this.userList.find(user => user.phone === phone);    
+    console.log(this.selectedUser.phone);
+    
     this.roomId = this.selectedUser.roomId[this.currentUser.id];        
     this.messageArray = []
     this.storageArray = this.chatservice.getStorage();
-    console.log(this.storageArray.length);
     let storeIndex
     if(this.storageArray.length == 0){
       storeIndex = -1          
     }else{
       storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);   
     }
-    console.log(storeIndex);
     
     if (storeIndex > -1){
       this.messageArray = this.storageArray[storeIndex].chats;
@@ -176,7 +173,6 @@ export class AppComponent {
       };      
       this.storageArray.push(updateStorage);
     }
-    console.log(this.storageArray);
     
     this.chatservice.setStorage(this.storageArray);
     storeIndex = this.storageArray.findIndex((storage:any) => storage.roomId === this.roomId);  
